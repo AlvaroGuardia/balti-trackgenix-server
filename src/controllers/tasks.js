@@ -2,7 +2,13 @@ import TasksModel from '../models/Tasks';
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await TasksModel.find({});
+    const tasks = await TasksModel.find({}).populate('Employees', {
+      firstName: 1,
+      lastName: 1,
+    }, 'Projects', {
+      projectName: 1,
+      description: 1,
+    });
     return res.status(200).json({
       message: 'Request Successful. All tasks.',
       data: tasks,
@@ -19,7 +25,13 @@ export const getTasks = async (req, res) => {
 
 export const findTask = async (req, res) => {
   try {
-    const taskById = await TasksModel.findById(req.params.id);
+    const taskById = await TasksModel.findById(req.params.id).populate('Employees', {
+      firstName: 1,
+      lastName: 1,
+    }, 'Projects', {
+      projectName: 1,
+      description: 1,
+    });
     if (taskById) {
       return res.status(200).json({
         message: (`Request Successful. Task with Id: ${req.params.id} found.`),
@@ -69,7 +81,13 @@ export const addTask = async (req, res) => {
 export const editTask = async (req, res) => {
   const { id } = req.params;
   try {
-    const modifiedTask = await TasksModel.findByIdAndUpdate(id, req.body, { new: true });
+    const modifiedTask = await TasksModel.findByIdAndUpdate(id, req.body, { new: true }).populate('Employees', {
+      firstName: 1,
+      lastName: 1,
+    }, 'Projects', {
+      projectName: 1,
+      description: 1,
+    });
     if (modifiedTask) {
       return res.status(200).json({
         message: 'Task Modified',
@@ -94,7 +112,13 @@ export const editTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   const { id } = req.params;
   try {
-    const deleteTaskById = await TasksModel.findByIdAndDelete(id);
+    const deleteTaskById = await TasksModel.findByIdAndDelete(id).populate('Employees', {
+      firstName: 1,
+      lastName: 1,
+    }, 'Projects', {
+      projectName: 1,
+      description: 1,
+    });
     if (deleteTaskById) {
       return res.status(200).json({
         message: 'Task Deleted',

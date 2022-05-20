@@ -4,12 +4,14 @@ const { Schema } = mongoose;
 
 const timeSheetSchema = new Schema({
   employee: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: 'Employee',
   },
   project: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: 'Projects',
   },
   role: {
     type: String,
@@ -32,8 +34,9 @@ const timeSheetSchema = new Schema({
     required: false,
   },
   task: {
-    type: String,
-    required: false,
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Tasks',
   },
 });
 

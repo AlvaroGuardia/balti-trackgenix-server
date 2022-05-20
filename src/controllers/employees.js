@@ -2,7 +2,10 @@ import Employees from '../models/Employees';
 
 export const getAllEmployees = async (req, res) => {
   try {
-    const allEmployees = await Employees.find({});
+    const allEmployees = await Employees.find({}).populate('Projects', {
+      projectName: 1,
+      description: 1,
+    });
     return res.status(200).json({
       message: 'All Employees collected',
       data: allEmployees,
@@ -45,7 +48,10 @@ export const createEmployee = async (req, res) => {
 
 export const deleteEmployee = async (req, res) => {
   try {
-    const result = await Employees.findByIdAndDelete(req.params.id);
+    const result = await Employees.findByIdAndDelete(req.params.id).populate('Projects', {
+      projectName: 1,
+      description: 1,
+    });
     if (!result) {
       return res.status(404).json({
         message: 'Employee not found',
@@ -69,7 +75,10 @@ export const deleteEmployee = async (req, res) => {
 
 export const getEmployeesById = async (req, res) => {
   try {
-    const employee = await Employees.findById(req.params.id);
+    const employee = await Employees.findById(req.params.id).populate('Projects', {
+      projectName: 1,
+      description: 1,
+    });
     if (employee) {
       return res.status(200).json({
         message: 'Employee with the ID required collected',
@@ -101,7 +110,10 @@ export const updateEmployee = async (req, res) => {
   };
 
   try {
-    const result = await Employees.findByIdAndUpdate(req.params.id, (updatedEmployee));
+    const result = await Employees.findByIdAndUpdate(req.params.id, (updatedEmployee)).populate('Projects', {
+      projectName: 1,
+      description: 1,
+    });
     if (!result) {
       return res.status(404).json({
         message: `Employee id: ${req.params.id} not found`,
