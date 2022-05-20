@@ -20,7 +20,11 @@ const employeeSchema = new Schema({
     required: true,
   },
   assignedProjects: [
-    Number,
+    {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Projects',
+    },
   ],
   isActive: {
     type: Boolean,
